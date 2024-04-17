@@ -5,5 +5,5 @@ import (
 )
 
 func TestMover(t *testing.T) {
-	Mover(4, "A", "B", "C")
+	Mover(5, "A", "B", "C")
 }
