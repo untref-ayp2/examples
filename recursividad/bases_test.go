@@ -14,3 +14,8 @@ func TestImprimirEnDecimal(t *testing.T) {
 func TestImprimirEnBase(t *testing.T) {
 	ImprimirEnBase(42, 2)
 }
+
+func TestImprimirRec(t *testing.T) {
+	a := []int{1, 2, 3}
+	ImprimirRec(a)
+}
