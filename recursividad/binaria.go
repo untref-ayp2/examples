@@ -13,7 +13,9 @@ func busquedaBinaria(array []int, inicio int, fin int, x int) int {
 
 	if array[medio] > x {
 		return busquedaBinaria(array, inicio, medio-1, x)
-	} else if array[medio] < x {
+	}
+
+	if array[medio] < x {
 		return busquedaBinaria(array, medio+1, fin, x)
 	}
 
