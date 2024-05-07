@@ -7,3 +7,5 @@ visto en clase, y que se han resuelto en el aula.
   recursiva de división y conquista
 - [`potencia.go`](potencia.go), la resolución del ejercicio de clase, de la
   estrategia division y conquista para potencias
+- [`suma.go`](suma.go), la resolución del ejercicio de clase, de la estrategia
+  de división y conquista para sumar los elementos de un slice
