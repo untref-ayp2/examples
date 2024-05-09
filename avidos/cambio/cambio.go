@@ -10,7 +10,7 @@ func Cambiar(cantidad int) map[int]int {
 	for _, denominacion := range billetes {
 		if cantidad >= denominacion {
 			cambio[denominacion] = cantidad / denominacion
-			cantidad %= denominacion
+			cantidad = cantidad % denominacion
 		}
 	}
 	return cambio

@@ -8,7 +8,7 @@ type Actividad struct {
 
 // Selector de actividades iterativo
 // Devuelve un slice con las actividades seleccionadas que no se solapan
-// Pre condición: las actividades están ordenadas  de menor a mayor por tiempo de finalización
+// Pre condición: las actividades están ordenadas de menor a mayor por tiempo de finalización
 func SelectorActividadesIterativo(actividades []Actividad) []Actividad {
 	var seleccionadas []Actividad
 	n := len(actividades)

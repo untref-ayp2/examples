@@ -34,9 +34,9 @@ func TestCambio(t *testing.T) {
 }
 
 func TestDiapositivas(t *testing.T) {
-	cantidad := 3528
+	cantidad := 5528
 	cbio := map[int]int{
-		2000: 1,
+		2000: 2,
 		1000: 1,
 		500:  1,
 		20:   1,
