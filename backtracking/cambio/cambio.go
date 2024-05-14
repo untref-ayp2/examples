@@ -5,15 +5,21 @@ package cambio
 // monedas: monedas disponibles para el cambio
 // Devuelve un arreglo con la cantidad de monedas de cada tipo
 
-//import "fmt"
+import "fmt"
 
 // Función recursiva que realiza el backtracking para encontrar la solución
 func backtracking(cantidad int, denominaciones []int, solucion []int, mejorSolucion *[]int) {
 	// Si ya encontramos una solución, comparamos si es mejor que la actual
 	if cantidad == 0 { // Encontramos una solución
 		if len(solucion) < len(*mejorSolucion) || len(*mejorSolucion) == 0 {
-			*mejorSolucion = solucion
+			//*mejorSolucion = solucion // No funciona porque se comparte la misma dirección de memoria
+			*mejorSolucion = make([]int, len(solucion))
+			copy(*mejorSolucion, solucion)
+			fmt.Println("Mejor solucion1: ", *mejorSolucion)
 		}
+		return
+	}
+	if len (solucion) >= len(*mejorSolucion) && len(*mejorSolucion) != 0 {
 		return
 	}
 	// Si no encontramos una solución, seguimos explorando todas las posibilidades
@@ -30,5 +36,6 @@ func CambioDeMoneda(cantidad int, denominaciones []int) []int {
 	var solucion []int
 	var mejorSolucion []int
 	backtracking(cantidad, denominaciones, solucion, &mejorSolucion)
+	fmt.Println("Mejor solucion: ", mejorSolucion)
 	return mejorSolucion
 }
