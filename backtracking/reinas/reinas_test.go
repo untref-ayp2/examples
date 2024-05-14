@@ -17,7 +17,7 @@ func esSolucion(solucion []int) bool {
 }
 
 func TestNReinas(t *testing.T) {
-	n := 8
+	n := 12
 
 	solucion := NReinas(n)
 	fmt.Println(solucion)
