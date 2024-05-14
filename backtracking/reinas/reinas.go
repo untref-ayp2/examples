@@ -31,7 +31,9 @@ func esFactible(fila int, columna int, reinas []int) bool {
 // Retorna la solución encontrada
 func backtracking(n int, fila int, reinas []int, solucion *[]int) {
 	if fila == n { //Colocamos n reinas en el tablero
-		*solucion = reinas
+		//*solucion = reinas 
+		*solucion = make([]int, len(reinas))
+		copy(*solucion, reinas)
 		return
 	}
 	//Extender
