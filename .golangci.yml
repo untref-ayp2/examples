@@ -1,0 +1,63 @@
+linters:
+  # disable-all: true
+  # enable:
+  #  - testifylint
+  # Enable all available linters.
+  # Default: false
+  enable-all: true
+  # Disable specific linter
+  # https://golangci-lint.run/usage/linters/#disabled-by-default
+  disable:
+    - copyloopvar
+    - cyclop
+    - depguard
+    - dupl
+    - err113
+    - errcheck
+    - execinquery
+    - exhaustruct
+    - forbidigo
+    - gci
+    - gocognit
+    - gocritic
+    - godot
+    - godox
+    - gofmt
+    - gofumpt
+    - goimports
+    - gomnd
+    - gosimple
+    - intrange
+    - ireturn
+    - lll
+    - misspell
+    - mnd
+    - nlreturn
+    - paralleltest
+    - perfsprint
+    - predeclared
+    - revive
+    - structcheck
+    - stylecheck
+    - testifylint
+    - testpackage
+    - varnamelen
+    - whitespace
+    - wsl
+
+    # Disable deprecated linters
+    - deadcode
+    - exhaustivestruct
+    - golint
+    - ifshort
+    - interfacer
+    - maligned
+    - nosnakecase
+    - scopelint
+    - varcheck
+
+linters-settings:
+  mnd:
+    ignored-numbers:
+      - '0b0'
+      - '0b1'
