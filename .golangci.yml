@@ -20,7 +20,6 @@ linters:
     - gci
     - gocognit
     - gocritic
-    - godot
     - godox
     - gofmt
     - gofumpt
@@ -39,11 +38,13 @@ linters:
     - revive
     - structcheck
     - stylecheck
-    - testifylint
     - testpackage
     - varnamelen
     - whitespace
     - wsl
+
+    # Disable silly linters
+    - godot
 
     # Disable deprecated linters
     - deadcode

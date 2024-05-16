@@ -24,7 +24,7 @@ func TestSudokuUnicaSolucion(t *testing.T) {
 	sudoku.Solve()
 	// sudoku.PrintSolutions()
 
-	assert.Equal(t, 1, len(sudoku.solutions), "La solución debe ser una")
+	assert.Len(t, sudoku.solutions, 1, "La solución debe ser una")
 
 	for i := range sudoku.solutions {
 		assert.True(t, isSudokuValid(sudoku.solutions[i]), fmt.Sprint("La solución ", i+1, " del Sudoku es invalida"))
@@ -49,7 +49,7 @@ func TestSudokuMultipleSolucion(t *testing.T) {
 	sudoku.Solve()
 	// sudoku.PrintSolutions()
 
-	assert.Equal(t, 2, len(sudoku.solutions), "La soluciones deben ser dos")
+	assert.Len(t, sudoku.solutions, 2, "La soluciones deben ser dos")
 
 	for i := range sudoku.solutions {
 		assert.True(t, isSudokuValid(sudoku.solutions[i]), fmt.Sprint("La solución ", i+1, " del Sudoku es invalida"))
@@ -73,7 +73,7 @@ func TestSudokuMilesSoluciones(t *testing.T) {
 	sudoku := NewSudoku(board)
 	sudoku.Solve()
 
-	assert.Equal(t, 32604, len(sudoku.solutions), "La soluciones deben ser 32604")
+	assert.Len(t, sudoku.solutions, 32604, "La soluciones deben ser 32604")
 
 	for i := range sudoku.solutions {
 		assert.True(t, isSudokuValid(sudoku.solutions[i]), fmt.Sprint("La solución ", i+1, " del Sudoku es invalida"))
