@@ -1,18 +1,17 @@
 package fibbonacci_top_down
 
 func Fibonacci(n int) int {
-	return fibonacci(n, make(map[int]int))
+	mem := make(map[int]int)
+	mem[0] = 0
+	mem[1] = 1
+	return fibonacci(n, mem)
 }
 
 func fibonacci(n int, mem map[int]int) int {
 	key := n
-	if result, ok := mem[key]; ok {
+	result, ok := mem[key]
+	if ok {
 		return result
-	}
-
-	if n < 2 {
-		mem[key] = n
-		return mem[key]
 	}
 	mem[key] = fibonacci(n-1, mem) + fibonacci(n-2, mem)
 	return mem[key]
