@@ -1,9 +1,10 @@
 package main
 
 import (
-	"time"
-	"github.com/untref-ayp2/examples/backtracking/sudoku"
 	"log"
+	"time"
+
+	"github.com/untref-ayp2/examples/backtracking/sudoku"
 
 	ui "github.com/gizak/termui/v3"
 	"github.com/gizak/termui/v3/widgets"
@@ -19,7 +20,7 @@ func main() {
 	p0.SetRect(0, 0, 35, 35)
 	p0.Border = false
 
-	var board [9][9]int = [9][9]int{
+	var board = [9][9]int{
 		{4, 0, 0, 1, 9, 5, 0, 6, 8},
 		{8, 0, 0, 0, 0, 0, 7, 0, 1},
 		{9, 0, 1, 6, 0, 0, 0, 3, 0},

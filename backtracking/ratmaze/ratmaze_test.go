@@ -11,7 +11,7 @@ func TestLaberinto(t *testing.T) {
 	O := true
 	X := false
 
-	var maze [][]bool = [][]bool{
+	var maze = [][]bool{
 		{O, O, X, O, O, O, O},
 		{O, O, X, O, X, X, O},
 		{O, O, X, O, O, X, O},
@@ -32,7 +32,7 @@ func TestVacio(t *testing.T) {
 	O := true
 	// X := false
 
-	var maze [][]bool = [][]bool{
+	var maze = [][]bool{
 		{O, O, O, O, O, O, O, O, O, O, O, O},
 		{O, O, O, O, O, O, O, O, O, O, O, O},
 		{O, O, O, O, O, O, O, O, O, O, O, O},

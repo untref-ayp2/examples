@@ -8,7 +8,7 @@ import (
 )
 
 func TestSudokuUnicaSolucion(t *testing.T) {
-	var board [9][9]int = [9][9]int{
+	var board = [9][9]int{
 		{0, 0, 0, 1, 0, 5, 0, 6, 8},
 		{0, 0, 0, 0, 0, 0, 7, 0, 1},
 		{9, 0, 1, 0, 0, 0, 0, 3, 0},
@@ -33,7 +33,7 @@ func TestSudokuUnicaSolucion(t *testing.T) {
 }
 
 func TestSudokuMultipleSolucion(t *testing.T) {
-	var board [9][9]int = [9][9]int{
+	var board = [9][9]int{
 		{5, 3, 0, 0, 7, 0, 0, 0, 0},
 		{6, 0, 0, 1, 9, 5, 0, 0, 0},
 		{0, 9, 8, 0, 0, 0, 0, 6, 0},
@@ -58,7 +58,7 @@ func TestSudokuMultipleSolucion(t *testing.T) {
 }
 
 func TestSudokuMilesSoluciones(t *testing.T) {
-	var board [9][9]int = [9][9]int{
+	var board = [9][9]int{
 		{1, 2, 3, 4, 5, 6, 7, 8, 9},
 		{4, 5, 6, 7, 8, 9, 1, 2, 3},
 		{7, 8, 9, 0, 0, 0, 4, 5, 6},
