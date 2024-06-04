@@ -1,7 +1,7 @@
 package ordenamientosRecursivos
 
 // Implementa el algoritmo de ordenamiento MergeSort para ordenar un arreglo de enteros de manera ascendente.
-func MergeSort(array []int) []int {
+func Mergesort(array []int) []int {
 
 	// Caso base: si el tamaño del arreglo es menor a 2, no hay nada que ordenar, por lo que se retorna el arreglo original
 	if len(array) < 2 {
@@ -12,8 +12,8 @@ func MergeSort(array []int) []int {
 	middle := len(array) / 2
 
 	// Se realiza la llamada recursiva para ordenar cada mitad del arreglo
-	left := MergeSort(array[:middle])  // Ordena la mitad izquierda del arreglo
-	right := MergeSort(array[middle:]) // Ordena la mitad derecha del arreglo
+	left := Mergesort(array[:middle])  // Ordena la mitad izquierda del arreglo
+	right := Mergesort(array[middle:]) // Ordena la mitad derecha del arreglo
 
 	// Se combina (merge) las dos mitades ordenadas
 	return merge(left, right)
