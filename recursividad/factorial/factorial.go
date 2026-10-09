@@ -1,4 +1,4 @@
-package recursividad
+package main
 
 // Factorial calcula el factorial de n, donde n debe ser mayor o igual a 0.
 func Factorial(n int) int {

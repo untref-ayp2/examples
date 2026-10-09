@@ -1,4 +1,4 @@
-package recursividad
+package main
 
 func EsPalindromo(texto string) bool {
 	if len(texto) <= 1 {

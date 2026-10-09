@@ -1,4 +1,4 @@
-package recursividad
+package main
 
 import "fmt"
 
