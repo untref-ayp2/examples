@@ -32,18 +32,22 @@ lista, contarlos o dibujarlos sin tocar la lógica.
 
 ## 4. Visualización
 
-La capa `hanoi_visual.go` dibuja las tres varas y sus discos en ASCII. El
-estado se modela con `estadoHanoi` (cada vara es una pila de discos) y se
-pinta con:
+La capa `hanoi_visual.go` dibuja las tres varas en un marco fijo (UTF-8,
+igual que el ejemplo de sudoku): cada dibujo borra la pantalla y pinta el
+estado en el mismo lugar. Los discos son barras de `█`, la vara vacía se ve
+como `│`, el disco que acaba de moverse se resalta en cian y un contador
+acumula los movimientos. El estado se modela con `estadoHanoi` (cada vara es
+una pila de discos) y se pinta con:
 
 | Función | Qué hace |
 |---|---|
 | `nuevoEstadoHanoi(n int) *estadoHanoi` | Crea el estado inicial con los `n` discos en la vara `A`. |
-| `(*estadoHanoi).mover(disco, origen, destino int)` | Pasa el disco superior de `origen` a `destino`. |
-| `(*estadoHanoi).dibujar(w io.Writer, delay time.Duration)` | Escribe el estado actual en `w` y espera `delay` (no imprime por su cuenta). |
+| `(*estadoHanoi).mover(disco, origen, destino int)` | Pasa el disco superior de `origen` a `destino` y avanza el contador. |
+| `(*estadoHanoi).Tablero() string` | Devuelve el estado actual con bordes, disco en movimiento resaltado y contador. |
+| `(*estadoHanoi).dibujar(w io.Writer, delay time.Duration)` | Borra la pantalla, escribe `Tablero` en `w` y espera `delay` (no imprime por su cuenta). |
 
 El `main.go` conecta ambas partes: el callback de `Mover` actualiza el estado
-y lo redibuja, así se ve la pila moverse paso a paso.
+y lo redibuja, así se ve la pila acomodarse paso a paso en la misma posición.
 
 ## 5. Cómo correrlo
 
@@ -58,7 +62,8 @@ velocidad (`delay`).
 
 - Cambiá `n` en `main.go`: con 3 o 4 discos se sigue cómodamente; con 8 ya hay
   255 movimientos.
-- Bajá el `delay` a 0 y contá los movimientos: ¿coincide con `2^n - 1`?
+- Bajá el `delay` a 0 y mirá el contador del dibujo: ¿el total coincide con
+  `2^n - 1`?
 
 ## 7. Tests
 

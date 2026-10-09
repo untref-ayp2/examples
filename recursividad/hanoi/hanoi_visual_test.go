@@ -21,6 +21,9 @@ func TestNuevoEstadoHanoi(t *testing.T) {
 	if len(estado.varas[1]) != 0 || len(estado.varas[2]) != 0 {
 		t.Errorf("las varas B y C deben arrancar vacías")
 	}
+	if estado.movimientos != 0 {
+		t.Errorf("el contador debe arrancar en 0; es %d", estado.movimientos)
+	}
 }
 
 func TestMoverDisco(t *testing.T) {
@@ -36,6 +39,13 @@ func TestMoverDisco(t *testing.T) {
 	if estado.varas[2][0] != 2 || estado.varas[2][1] != 1 {
 		t.Errorf("vara C = %v; se esperaba [2 1]", estado.varas[2])
 	}
+	if estado.movimientos != 3 {
+		t.Errorf("el contador debe marcar 3 movimientos; marca %d", estado.movimientos)
+	}
+	if estado.ultimoDisco != 1 || estado.ultimaVara != 2 {
+		t.Errorf("debe resaltarse el disco %d en la vara %d; got disco=%d vara=%d",
+			1, 2, estado.ultimoDisco, estado.ultimaVara)
+	}
 }
 
 func TestDibujar(t *testing.T) {
@@ -45,13 +55,26 @@ func TestDibujar(t *testing.T) {
 	estado.dibujar(&buf, 0)
 
 	salida := buf.String()
-	if !strings.Contains(salida, "###") {
-		t.Errorf("el dibujo debe contener el disco 1; salida:\n%s", salida)
+	for _, fragmento := range []string{"\033[2J\033[H", "█", "│", "┏", "┗", "A", "B", "C", "Movimientos: 0"} {
+		if !strings.Contains(salida, fragmento) {
+			t.Errorf("el dibujo debe contener %q; salida:\n%s", fragmento, salida)
+		}
 	}
-	if !strings.Contains(salida, "|") {
-		t.Errorf("el dibujo debe contener las varas vacías; salida:\n%s", salida)
+}
+
+func TestTableroResaltaUltimoMovimiento(t *testing.T) {
+	estado := nuevoEstadoHanoi(2)
+
+	if strings.Contains(estado.Tablero(), "\033[36m") {
+		t.Errorf("sin movimientos no debe haber disco resaltado")
 	}
-	if !strings.Contains(salida, "A") || !strings.Contains(salida, "B") || !strings.Contains(salida, "C") {
-		t.Errorf("el dibujo debe rotular las varas A, B y C; salida:\n%s", salida)
+
+	estado.mover(1, 0, 1)
+	tablero := estado.Tablero()
+	if !strings.Contains(tablero, "\033[36m") {
+		t.Errorf("el disco recién movido debe resaltarse en cian; tablero:\n%s", tablero)
+	}
+	if !strings.Contains(tablero, "Movimientos: 1") {
+		t.Errorf("el contador debe marcar 1 movimiento; tablero:\n%s", tablero)
 	}
 }

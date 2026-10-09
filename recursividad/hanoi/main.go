@@ -25,7 +25,6 @@ func main() {
 
 	estado := nuevoEstadoHanoi(n)
 
-	fmt.Printf("Torres de Hanoi con %d discos\n", n)
 	estado.dibujar(os.Stdout, 0)
 
 	Mover(n, "A", "B", "C", func(disco int, origen, destino string) {
