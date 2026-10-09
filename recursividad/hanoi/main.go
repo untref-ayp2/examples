@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"time"
@@ -20,14 +21,13 @@ func varaIndice(nombre string) int {
 }
 
 func main() {
-	const n = 3
 	const delay = 400 * time.Millisecond
 
-	estado := nuevoEstadoHanoi(n)
+	estado := nuevoEstadoHanoi(LeerCantidadDiscos(bufio.NewReader(os.Stdin), os.Stdout))
 
 	estado.dibujar(os.Stdout, 0)
 
-	Mover(n, "A", "B", "C", func(disco int, origen, destino string) {
+	Mover(estado.discos, "A", "B", "C", func(disco int, origen, destino string) {
 		estado.mover(disco, varaIndice(origen), varaIndice(destino))
 		estado.dibujar(os.Stdout, delay)
 	})

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"strings"
 	"testing"
@@ -122,5 +123,28 @@ func TestTableroApilaDiscosDeAbajoParaArriba(t *testing.T) {
 	}
 	if !strings.Contains(filas[2], "███████") || strings.Contains(filas[2], "  ███  ") {
 		t.Errorf("la fila inferior debe mostrar el disco 3 (grande) y no el 1 (chico):\n%s", filas[2])
+	}
+}
+
+func TestLeerCantidadDiscos(t *testing.T) {
+	casos := []struct {
+		entrada string
+		quiero  int
+	}{
+		{"3\n", 3},         // borde inferior
+		{"10\n", 10},       // borde superior
+		{"\n", 3},          // Enter vacío: 3
+		{"2\n4\n", 4},      // rechaza 2 (menor que 3)
+		{"99\n11\n7\n", 7}, // rechaza 99 y 11
+		{"tres\n6\n", 6},   // rechaza lo no numérico
+		{"", 3},            // sin entrada: 3
+	}
+
+	for _, caso := range casos {
+		var salida strings.Builder
+		got := LeerCantidadDiscos(bufio.NewReader(strings.NewReader(caso.entrada)), &salida)
+		if got != caso.quiero {
+			t.Errorf("LeerCantidadDiscos(%q) = %d, se esperaba %d", caso.entrada, got, caso.quiero)
+		}
 	}
 }

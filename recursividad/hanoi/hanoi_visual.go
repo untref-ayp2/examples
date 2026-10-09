@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"io"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -115,4 +117,44 @@ func (e *estadoHanoi) dibujar(w io.Writer, delay time.Duration) {
 	fmt.Fprint(w, limpiarPantalla)
 	fmt.Fprint(w, e.Tablero())
 	time.Sleep(delay)
+}
+
+// leerLinea lee una línea completa de entrada y devuelve su texto sin
+// espacios al borde. El segundo valor es false cuando no hay más entrada.
+func leerLinea(entrada *bufio.Reader) (string, bool) {
+	linea, err := entrada.ReadString('\n')
+	if linea == "" && err != nil {
+		return "", false
+	}
+	return strings.TrimSpace(linea), true
+}
+
+// LeerCantidadDiscos pregunta cuántos discos se quieren. Acepta un valor
+// entre 3 y 10; con Enter (o si se acaba la entrada) usa 3. Ante un valor
+// inválido vuelve a preguntar.
+func LeerCantidadDiscos(entrada *bufio.Reader, salida io.Writer) int {
+	const (
+		minimo     = 3
+		maximo     = 10
+		porDefecto = 3
+	)
+
+	for {
+		fmt.Fprintf(salida, "¿Cuántos discos? (entre %d y %d) [%d]: ", minimo, maximo, porDefecto)
+		linea, ok := leerLinea(entrada)
+		if !ok {
+			fmt.Fprintln(salida)
+			return porDefecto
+		}
+		if linea == "" {
+			return porDefecto
+		}
+
+		n, err := strconv.Atoi(linea)
+		if err != nil || n < minimo || n > maximo {
+			fmt.Fprintf(salida, "Valor inválido: ingresá un número entre %d y %d.\n", minimo, maximo)
+			continue
+		}
+		return n
+	}
 }

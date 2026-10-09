@@ -45,6 +45,7 @@ una pila de discos) y se pinta con:
 | `(*estadoHanoi).mover(disco, origen, destino int)` | Pasa el disco superior de `origen` a `destino` y avanza el contador. |
 | `(*estadoHanoi).Tablero() string` | Devuelve el estado actual con bordes, disco en movimiento resaltado y contador. |
 | `(*estadoHanoi).dibujar(w io.Writer, delay time.Duration)` | Borra la pantalla, escribe `Tablero` en `w` y espera `delay` (no imprime por su cuenta). |
+| `LeerCantidadDiscos(entrada *bufio.Reader, salida io.Writer) int` | Pregunta cuántos discos (entre 3 y 10; Enter usa 3) y devuelve el valor. Ante un valor inválido vuelve a preguntar. |
 
 El `main.go` conecta ambas partes: el callback de `Mover` actualiza el estado
 y lo redibuja, así se ve la pila acomodarse paso a paso en la misma posición.
@@ -55,13 +56,13 @@ y lo redibuja, así se ve la pila acomodarse paso a paso en la misma posición.
 go run ./recursividad/hanoi/
 ```
 
-En `main.go` se puede ajustar el número de discos (`n`, probá de 3 a 8) y la
-velocidad (`delay`).
+Al arrancar pregunta cuántos discos se quieren (entre 3 y 10; Enter usa 3).
+La velocidad (`delay`) se ajusta en `main.go`.
 
 ## 6. Para experimentar
 
-- Cambiá `n` en `main.go`: con 3 o 4 discos se sigue cómodamente; con 8 ya hay
-  255 movimientos.
+- Probá distinta cantidad de discos al arrancar: con 3 o 4 se sigue
+  cómodamente; con 8 ya hay 255 movimientos y con 10, 1023.
 - Bajá el `delay` a 0 y mirá el contador del dibujo: ¿el total coincide con
   `2^n - 1`?
 
