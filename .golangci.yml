@@ -5,24 +5,37 @@ linters:
     - cyclop
     - depguard
     - dupl
+    - dupword
     - err113
     - errcheck
     - exhaustruct
+    - exhaustruct_v5
     - forbidigo
+    - funcorder
     - funlen
     - gocognit
+    - goconst
     - gocritic
+    - godoclint
+    - godot
     - godox
+    - intrange
     - ireturn
     - lll
+    - misspell
     - mnd
+    - modernize
     - nlreturn
+    - nonamedreturns
     - paralleltest
     - perfsprint
     - predeclared
     - revive
+    - staticcheck
     - testpackage
+    - unparam
     - varnamelen
     - whitespace
-    - wsl
     - wrapcheck
+    - wsl
+    - wsl_v5
