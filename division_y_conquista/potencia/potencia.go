@@ -1,10 +1,6 @@
-package division_y_conquista
-
-import "fmt"
+package main
 
 func Potencia(n int, x int) int {
-	fmt.Println("n", n, "x", x)
-
 	if x == 0 {
 		return 1
 	}

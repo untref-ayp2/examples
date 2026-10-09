@@ -1,4 +1,4 @@
-package division_y_conquista
+package main
 
 func BusquedaBinaria(array []int, x int) int {
 	return busquedaBinaria(array, 0, len(array)-1, x)
