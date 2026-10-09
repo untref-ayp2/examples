@@ -1,4 +1,4 @@
-package actividades
+package main
 
 type Actividad struct {
 	Nombre string
@@ -6,9 +6,11 @@ type Actividad struct {
 	Fin    int
 }
 
-// Selector de actividades iterativo
-// Devuelve un slice con las actividades seleccionadas que no se solapan
-// Pre condición: las actividades están ordenadas de menor a mayor por tiempo de finalización
+// SelectorActividadesIterativo devuelve la mayor cantidad de actividades que
+// no se solapan, recorriendo la lista en una sola pasada.
+//
+// Precondición: las actividades están ordenadas de menor a mayor por tiempo de
+// finalización.
 func SelectorActividadesIterativo(actividades []Actividad) []Actividad {
 	var seleccionadas []Actividad
 	n := len(actividades)

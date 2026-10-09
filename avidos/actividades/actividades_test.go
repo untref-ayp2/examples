@@ -1,11 +1,11 @@
-package actividades
+package main
 
 import (
-	"fmt"
+	"reflect"
 	"testing"
 )
 
-func TestActividades(t *testing.T) {
+func TestSelectorActividadesIterativo(t *testing.T) {
 	actividades := []Actividad{
 		{"a1", 1, 4},
 		{"a2", 3, 5},
@@ -19,10 +19,19 @@ func TestActividades(t *testing.T) {
 		{"a10", 2, 14},
 		{"a11", 12, 15},
 	}
-	fmt.Println("Actividades: ", actividades)
+
 	seleccionadas := SelectorActividadesIterativo(actividades)
-	fmt.Println("Actividades seleccionadas: ", seleccionadas)
+
+	esperado := []Actividad{
+		{"a1", 1, 4},
+		{"a4", 5, 7},
+		{"a8", 8, 11},
+		{"a11", 12, 15},
+	}
 	if len(seleccionadas) != 4 {
-		t.Error("Se esperaban 4 actividades seleccionadas")
+		t.Fatalf("se esperaban 4 actividades seleccionadas; se obtuvieron %d: %v", len(seleccionadas), seleccionadas)
+	}
+	if !reflect.DeepEqual(seleccionadas, esperado) {
+		t.Errorf("SelectorActividadesIterativo(...) = %v; se esperaba %v", seleccionadas, esperado)
 	}
 }
