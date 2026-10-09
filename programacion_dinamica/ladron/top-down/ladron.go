@@ -1,4 +1,4 @@
-package ladron_top_down
+package main
 
 import (
 	"math"

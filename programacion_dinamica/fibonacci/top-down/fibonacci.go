@@ -1,4 +1,4 @@
-package fibbonacci_top_down
+package main
 
 func Fibonacci(n int) int {
 	mem := make(map[int]int)

@@ -1,4 +1,4 @@
-package ladron_recursivo
+package main
 
 import (
 	"math"

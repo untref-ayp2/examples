@@ -1,4 +1,4 @@
-package cambio_bottom_up
+package main
 
 import "math"
 

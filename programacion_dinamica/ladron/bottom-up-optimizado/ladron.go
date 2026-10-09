@@ -1,4 +1,4 @@
-package ladron_bottom_up_optimizado
+package main
 
 import (
 	"math"

@@ -1,4 +1,4 @@
-package cambio_recursivo
+package main
 
 import "math"
 

@@ -1,11 +1,10 @@
-package ladron_bottom_up
+package main
 
-import (
-	"testing"
+import "testing"
 
-	"github.com/stretchr/testify/assert"
-)
-
-func TestLadron(t *testing.T) {
-	assert.Equal(t, 25, Rob([]int{2, 10, 3, 6, 8, 1, 7}))
+func TestRob(t *testing.T) {
+	houses := []int{2, 10, 3, 6, 8, 1, 7}
+	if got := Rob(houses); got != 25 {
+		t.Errorf("Rob(%v) = %d; want 25", houses, got)
+	}
 }

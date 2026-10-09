@@ -1,4 +1,4 @@
-package fibbonacci_bottom_up
+package main
 
 func Fibonacci(n int) int {
 	table := make([]int, n+1)

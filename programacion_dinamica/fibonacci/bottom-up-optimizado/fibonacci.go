@@ -1,4 +1,4 @@
-package fibbonacci_bottom_up_optimizado
+package main
 
 func Fibonacci(n int) int {
 	if n < 2 {
