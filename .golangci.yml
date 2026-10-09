@@ -1,66 +1,28 @@
+version: "2"
 linters:
-  # disable-all: true
-  # enable:
-  #  - testifylint
-  # Enable all available linters.
-  # Default: false
-  enable-all: true
-  # Disable specific linter
-  # https://golangci-lint.run/usage/linters/#disabled-by-default
+  default: all
   disable:
-    - copyloopvar
     - cyclop
     - depguard
     - dupl
     - err113
     - errcheck
-    - execinquery
     - exhaustruct
     - forbidigo
-    - gci
+    - funlen
     - gocognit
     - gocritic
     - godox
-    - gofmt
-    - gofumpt
-    - goimports
-    - gomnd
-    - gosimple
-    - intrange
+    - ireturn
     - lll
-    - misspell
     - mnd
     - nlreturn
     - paralleltest
     - perfsprint
     - predeclared
     - revive
-    - structcheck
-    - stylecheck
     - testpackage
     - varnamelen
     - whitespace
     - wsl
-
-    # Disable silly linters
-    - godot
-
-    # Disable deprecated linters
-    - deadcode
-    - exhaustivestruct
-    - golint
-    - ifshort
-    - interfacer
-    - maligned
-    - nosnakecase
-    - scopelint
-    - varcheck
-
-linters-settings:
-  mnd:
-    ignored-numbers:
-      - '0b0'
-      - '0b1'
-issues:
-  max-issues-per-linter: 50
-  max-same-issues: 50
+    - wrapcheck
