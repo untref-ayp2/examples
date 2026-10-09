@@ -1,11 +1,22 @@
 # División y conquista
 
 En esta carpeta se encuentran los ejemplos de división y conquista que se han
-visto en clase, y que se han resuelto en el aula.
+visto en clase, y que se han resuelto en el aula. Cada ejemplo vive en su propia
+carpeta y se puede ejecutar y testear de forma independiente.
 
-- [`binaria.go`](binaria.go), los ejemplos de búsqueda binaria con estrategia
-  recursiva de división y conquista
-- [`potencia.go`](potencia.go), la resolución del ejercicio de clase, de la
-  estrategia division y conquista para potencias
-- [`suma.go`](suma.go), la resolución del ejercicio de clase, de la estrategia
-  de división y conquista para sumar los elementos de un slice
+## Ejemplos
+
+| Ejemplo | Descripción | Cómo correrlo |
+|---|---|---|
+| [busqueda-binaria](busqueda-binaria/) | Búsqueda binaria sobre un arreglo ordenado, con estrategia recursiva de división y conquista. | `go run ./division_y_conquista/busqueda-binaria/` |
+| [potencia](potencia/) | Cálculo de potencias por división y conquista. | `go run ./division_y_conquista/potencia/` |
+| [suma](suma/) | Suma de los elementos de un slice por división y conquista. | `go run ./division_y_conquista/suma/` |
+
+## Tests
+
+```bash
+go test ./division_y_conquista/...
+```
+
+Cada ejemplo tiene su propio `README.md` con el detalle del algoritmo, los
+parámetros para experimentar y la complejidad.
