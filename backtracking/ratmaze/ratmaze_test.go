@@ -1,91 +1,151 @@
-package ratmaze
+package main
 
 import (
-	"fmt"
+	"strings"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
-func TestLaberinto(t *testing.T) {
-	O := true
-	X := false
-
-	var maze = [][]bool{
-		{O, O, X, O, O, O, O},
-		{O, O, X, O, X, X, O},
-		{O, O, X, O, O, X, O},
-		{O, O, X, X, O, X, O},
-		{O, O, O, O, O, X, O},
+func TestRatMazeEncuentraCamino(t *testing.T) {
+	maze := [][]bool{
+		{true, true, false, true, true, true, true},
+		{true, true, false, true, false, false, true},
+		{true, true, false, true, true, false, true},
+		{true, true, false, false, true, false, true},
+		{true, true, true, true, true, false, true},
 	}
 
-	ratmaze := NewRatMaze(maze)
-	assert.True(t, ratmaze.Solve(), fmt.Sprint("No fue dada una solución"))
+	ratmaze := NuevoRatMaze(maze)
 
-	ratmaze.PrintSolution()
-
-	assert.True(t, isRatMazeSolutionValid(ratmaze.solution, 0, 0, 6, 4), fmt.Sprint("La solución es invalida"))
-	assert.True(t, isSameMaze(ratmaze.maze, ratmaze.solution), fmt.Sprint("La solución no corresponde con la maze"))
+	if !ratmaze.Resolver() {
+		t.Fatal("Resolver() = false, se esperaba encontrar un camino")
+	}
+	if !esCaminoValido(maze, ratmaze.solucion) {
+		t.Fatalf("la solución no es un camino válido:\n%s", ratmaze.Tablero(-1, -1))
+	}
 }
 
-func TestVacio(t *testing.T) {
-	O := true
-	// X := false
-
-	var maze = [][]bool{
-		{O, O, O, O, O, O, O, O, O, O, O, O},
-		{O, O, O, O, O, O, O, O, O, O, O, O},
-		{O, O, O, O, O, O, O, O, O, O, O, O},
-		{O, O, O, O, O, O, O, O, O, O, O, O},
-		{O, O, O, O, O, O, O, O, O, O, O, O},
-		{O, O, O, O, O, O, O, O, O, O, O, O},
-		{O, O, O, O, O, O, O, O, O, O, O, O},
-		{O, O, O, O, O, O, O, O, O, O, O, O},
-		{O, O, O, O, O, O, O, O, O, O, O, O},
-		{O, O, O, O, O, O, O, O, O, O, O, O},
-		{O, O, O, O, O, O, O, O, O, O, O, O},
-		{O, O, O, O, O, O, O, O, O, O, O, O},
+func TestRatMazeSinCamino(t *testing.T) {
+	maze := [][]bool{
+		{true, false},
+		{false, false},
 	}
 
-	ratmaze := NewRatMaze(maze)
-	assert.True(t, ratmaze.Solve(), fmt.Sprint("No fue dada una solución"))
+	ratmaze := NuevoRatMaze(maze)
 
-	ratmaze.PrintSolution()
-
-	assert.True(t, isRatMazeSolutionValid(ratmaze.solution, 0, 0, 11, 11), fmt.Sprint("La solución es invalida"))
-	assert.True(t, isSameMaze(ratmaze.maze, ratmaze.solution), fmt.Sprint("La solución no corresponde con la maze"))
+	if ratmaze.Resolver() {
+		t.Fatal("Resolver() = true, no existe camino hasta el destino")
+	}
 }
 
-func isSameMaze(original [][]bool, solved [][]bool) bool {
-	// Recorro todo el tablero
-	for y := 0; y < len(original); y++ {
-		for x := 0; x < len(original[y]); x++ {
-			if !original[y][x] && solved[y][x] {
+func TestRatMazeRegistraVueltaAtras(t *testing.T) {
+	maze := [][]bool{
+		{true, true, false},
+		{true, false, false},
+		{true, true, true},
+	}
+
+	ratmaze := NuevoRatMaze(maze)
+
+	huboVueltaAtras := false
+	ratmaze.ResolverConPaso(func(x, y int, avanzando bool) {
+		if !avanzando {
+			huboVueltaAtras = true
+		}
+	})
+
+	if !huboVueltaAtras {
+		t.Error("se esperaba observar al menos una vuelta atrás")
+	}
+}
+
+func TestRatMazeTablero(t *testing.T) {
+	maze := [][]bool{
+		{true, false},
+		{true, true},
+	}
+
+	ratmaze := NuevoRatMaze(maze)
+	ratmaze.Resolver()
+
+	tablero := ratmaze.Tablero(-1, -1)
+	if !strings.Contains(tablero, "#") {
+		t.Errorf("el tablero debería dibujar las paredes con '#':\n%s", tablero)
+	}
+	if !strings.Contains(tablero, "o") {
+		t.Errorf("el tablero debería dibujar el camino con 'o':\n%s", tablero)
+	}
+}
+
+func TestAnimarRatMaze(t *testing.T) {
+	maze := [][]bool{
+		{true, true, false},
+		{true, false, false},
+		{true, true, true},
+	}
+
+	ratmaze := NuevoRatMaze(maze)
+
+	var salida strings.Builder
+	ratmaze.Animar(&salida, 0)
+
+	if !strings.Contains(salida.String(), "Pasos") {
+		t.Errorf("la animación debería mostrar el contador de pasos")
+	}
+}
+
+// esCaminoValido comprueba que solucion sea un camino simple desde (0,0)
+// hasta el extremo inferior derecho, usando sólo celdas libres del laberinto.
+func esCaminoValido(maze, solucion [][]bool) bool {
+	if len(maze) == 0 || len(solucion) != len(maze) {
+		return false
+	}
+	filas := len(maze)
+	columnas := len(maze[0])
+	for y := 0; y < filas; y++ {
+		if len(maze[y]) != columnas || len(solucion[y]) != columnas {
+			return false
+		}
+	}
+
+	// Sólo celdas libres pueden formar parte de la solución.
+	for y := 0; y < filas; y++ {
+		for x := 0; x < columnas; x++ {
+			if solucion[y][x] && !maze[y][x] {
 				return false
 			}
 		}
 	}
-	return true
-}
 
-func isRatMazeSolutionValid(maze [][]bool, origX int, origY int, destX int, destY int) bool {
-	// Compruebo origen y destino
-	if !maze[origY][origX] || !maze[destY][destX] {
+	// El camino empieza en (0,0) y termina en el extremo inferior derecho.
+	if !solucion[0][0] || !solucion[filas-1][columnas-1] {
 		return false
 	}
 
-	// Compruebo adyacencias
-	rows := len(maze)
-	for y := 0; y < rows; y++ {
-		cols := len(maze[y])
-		for x := 0; x < len(maze[y]); x++ {
-			// Si soy parte de solución, compruebo tener al menos 1 adyacente
-			if maze[y][x] &&
-				(y != 0 && !maze[y-1][x]) &&
-				(y != rows-1 && !maze[y+1][x]) &&
-				(x != 0 && !maze[y][x-1]) &&
-				(y != cols-1 && !maze[y][x+1]) {
-				fmt.Print(x, y, cols, rows)
+	// Cada celda del camino tiene grado 2, salvo los extremos (grado 1):
+	// así se comprueba que es un camino simple y conexo.
+	for y := 0; y < filas; y++ {
+		for x := 0; x < columnas; x++ {
+			if !solucion[y][x] {
+				continue
+			}
+			grado := 0
+			if y > 0 && solucion[y-1][x] {
+				grado++
+			}
+			if y < filas-1 && solucion[y+1][x] {
+				grado++
+			}
+			if x > 0 && solucion[y][x-1] {
+				grado++
+			}
+			if x < columnas-1 && solucion[y][x+1] {
+				grado++
+			}
+			esExtremo := (y == 0 && x == 0) || (y == filas-1 && x == columnas-1)
+			if esExtremo && grado != 1 {
+				return false
+			}
+			if !esExtremo && grado != 2 {
 				return false
 			}
 		}

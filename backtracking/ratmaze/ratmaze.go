@@ -1,102 +1,122 @@
-package ratmaze
+package main
 
-import (
-	"fmt"
-)
+// Este archivo contiene el backtracking del laberinto de la rata.
+//
+// Arriba está el núcleo del algoritmo (el estado de la búsqueda y la
+// recursión); al final, los puntos de entrada.
 
+// ---------------------------------------------------------------------------
+// Backtracking
+// ---------------------------------------------------------------------------
+
+// RatMaze resuelve el laberinto de la rata: encontrar un camino desde la
+// celda superior izquierda hasta la inferior derecha, moviéndose en las
+// cuatro direcciones por las celdas libres (true).
 type RatMaze struct {
 	maze     [][]bool
-	solution [][]bool
+	solucion [][]bool
+	visitado [][]bool
 	destX    int
 	destY    int
 }
 
-func NewRatMaze(maze [][]bool) *RatMaze {
-	return &RatMaze{maze: maze}
+// PasoLaberinto se invoca en cada cambio del camino: avanzando es true al
+// entrar a una celda y false al retroceder (vuelta atrás). Es el gancho que
+// usa la capa de visualización para animar la búsqueda; puede ser nil.
+type PasoLaberinto func(x, y int, avanzando bool)
+
+// esSolucion indica si (x, y) es el destino del laberinto (y es transitable).
+func (r *RatMaze) esSolucion(x, y int) bool {
+	return x == r.destX && y == r.destY && r.maze[y][x]
 }
 
-// Controla que la posición esté dentro del laberinto, y que la posición sea un camino despejado
-func (ratmaze *RatMaze) isSafe(x int, y int) bool {
-	return y >= 0 && y < len(ratmaze.maze) && x >= 0 && x < len(ratmaze.maze[y]) && ratmaze.maze[y][x]
+// esFactible indica si se puede avanzar a (x, y): está dentro del laberinto,
+// es una celda libre y no forma parte del camino actual.
+func (r *RatMaze) esFactible(x, y int) bool {
+	return y >= 0 && y < len(r.maze) &&
+		x >= 0 && x < len(r.maze[y]) &&
+		r.maze[y][x] &&
+		!r.solucion[y][x]
 }
 
-func (ratmaze *RatMaze) Solve() bool {
-	// Preparamos la solución creando una matriz del mismo tamaño lleno de falsos
-	rows := len(ratmaze.maze)
-	ratmaze.solution = make([][]bool, rows)
-	for i := 0; i < rows; i++ {
-		cols := len(ratmaze.maze[i])
-		ratmaze.solution[i] = make([]bool, cols)
-		// for j := 0; j < cols; j++ {
-		// 	ratmaze.solution[i][j] = false
-		// }
+// registrar marca (x, y) como parte del camino y avisa del avance.
+func (r *RatMaze) registrar(x, y int, paso PasoLaberinto) {
+	r.solucion[y][x] = true
+	r.visitado[y][x] = true
+	if paso != nil {
+		paso(x, y, true)
 	}
-
-	// El destino es la posición de más abajo a la derecha
-	ratmaze.destY = rows - 1
-	ratmaze.destX = len(ratmaze.maze[rows-1]) - 1
-
-	// Comienza en el 0, 0
-	return ratmaze.solve(0, 0)
 }
 
-func (ratmaze *RatMaze) solve(x int, y int) bool {
-	// Si estoy en el destino, devuelvo verdadero
-	if x == ratmaze.destX && y == ratmaze.destY && ratmaze.maze[y][x] {
-		ratmaze.solution[y][x] = true
+// borrar desmarca (x, y) al volver atrás y avisa del retroceso.
+func (r *RatMaze) borrar(x, y int, paso PasoLaberinto) {
+	r.solucion[y][x] = false
+	if paso != nil {
+		paso(x, y, false)
+	}
+}
+
+// backtracking es la recursión general del esquema: marca la celda actual y
+// prueba las cuatro direcciones hasta llegar al destino.
+func (r *RatMaze) backtracking(x, y int, paso PasoLaberinto) bool {
+	// esSolucion: llegamos al destino.
+	if r.esSolucion(x, y) {
+		r.registrar(x, y, paso)
 		return true
 	}
 
-	// Si la posición no es válida
-	if !ratmaze.isSafe(x, y) {
+	// Poda: celda fuera del laberinto, con pared, o ya incluida en el camino.
+	if !r.esFactible(x, y) {
 		return false
 	}
 
-	// Si estoy en una posición que ya es solución
-	if ratmaze.solution[y][x] {
-		return false
+	// registrar: marco la celda como parte del camino.
+	r.registrar(x, y, paso)
+
+	// extender: pruebo las cuatro direcciones.
+	if r.backtracking(x+1, y, paso) { // derecha
+		return true
 	}
-
-	ratmaze.solution[y][x] = true
-
-	// Mostrar pasos
-	// ratmaze.PrintSolution()
-	// fmt.Println()
-
-	// Busco para derecha
-	if ratmaze.solve(x+1, y) {
+	if r.backtracking(x, y+1, paso) { // abajo
+		return true
+	}
+	if r.backtracking(x-1, y, paso) { // izquierda
+		return true
+	}
+	if r.backtracking(x, y-1, paso) { // arriba
 		return true
 	}
 
-	// Busco para abajo
-	if ratmaze.solve(x, y+1) {
-		return true
-	}
-
-	// Busco para izquierda
-	if ratmaze.solve(x-1, y) {
-		return true
-	}
-
-	// Busco para arriba
-	if ratmaze.solve(x, y-1) {
-		return true
-	}
-
-	// Si nada fue valido, backtrackeo dejando la posición actual como no parte de la solución
-	ratmaze.solution[y][x] = false
+	// borrar (vuelta atrás): la celda no lleva a ninguna solución.
+	r.borrar(x, y, paso)
 	return false
 }
 
-func (ratmaze *RatMaze) PrintSolution() {
-	for row := 0; row < len(ratmaze.solution); row++ {
-		for col := 0; col < len(ratmaze.solution[row]); col++ {
-			x := " "
-			if ratmaze.solution[row][col] {
-				x = "X"
-			}
-			fmt.Print(x)
-		}
-		fmt.Println()
+// ---------------------------------------------------------------------------
+// Puntos de entrada
+// ---------------------------------------------------------------------------
+
+func NuevoRatMaze(maze [][]bool) *RatMaze {
+	return &RatMaze{maze: maze}
+}
+
+// Resolver busca un camino y deja marcadas en solucion las celdas que lo
+// forman. Devuelve true si encontró alguno.
+func (r *RatMaze) Resolver() bool {
+	return r.ResolverConPaso(nil)
+}
+
+// ResolverConPaso busca un camino y, si paso no es nil, lo invoca en cada
+// avance y cada vuelta atrás. Así la capa de visualización puede animar la
+// búsqueda sin que el backtracking conozca la terminal.
+func (r *RatMaze) ResolverConPaso(paso PasoLaberinto) bool {
+	r.solucion = make([][]bool, len(r.maze))
+	r.visitado = make([][]bool, len(r.maze))
+	for i := range r.maze {
+		r.solucion[i] = make([]bool, len(r.maze[i]))
+		r.visitado[i] = make([]bool, len(r.maze[i]))
 	}
+	r.destY = len(r.maze) - 1
+	r.destX = len(r.maze[r.destY]) - 1
+	return r.backtracking(0, 0, paso)
 }
