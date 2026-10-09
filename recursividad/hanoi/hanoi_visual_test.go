@@ -62,6 +62,25 @@ func TestDibujar(t *testing.T) {
 	}
 }
 
+// sinAnsi quita las secuencias de color ANSI (\033[...m), para poder
+// comparar el dibujo sin depender del resaltado.
+func sinAnsi(s string) string {
+	var b strings.Builder
+	enSecuencia := false
+	for _, r := range s {
+		if r == '\033' {
+			enSecuencia = true
+		}
+		if !enSecuencia {
+			b.WriteRune(r)
+		}
+		if enSecuencia && r == 'm' {
+			enSecuencia = false
+		}
+	}
+	return b.String()
+}
+
 func TestTableroResaltaUltimoMovimiento(t *testing.T) {
 	estado := nuevoEstadoHanoi(2)
 
@@ -76,5 +95,32 @@ func TestTableroResaltaUltimoMovimiento(t *testing.T) {
 	}
 	if !strings.Contains(tablero, "Movimientos: 1") {
 		t.Errorf("el contador debe marcar 1 movimiento; tablero:\n%s", tablero)
+	}
+}
+
+func TestTableroApilaDiscosDeAbajoParaArriba(t *testing.T) {
+	estado := nuevoEstadoHanoi(3)
+	// Secuencia clásica de 7 movimientos: al final todos los discos quedan en C.
+	for _, paso := range [][3]int{{1, 0, 2}, {2, 0, 1}, {1, 2, 1}, {3, 0, 2}, {1, 1, 0}, {2, 1, 2}, {1, 0, 2}} {
+		estado.mover(paso[0], paso[1], paso[2])
+	}
+
+	var filas []string
+	for _, linea := range strings.Split(estado.Tablero(), "\n") {
+		if strings.Contains(linea, "┃") {
+			filas = append(filas, sinAnsi(linea))
+		}
+	}
+	if len(filas) != 3 {
+		t.Fatalf("se esperaban 3 filas de discos; hay %d:\n%s", len(filas), strings.Join(filas, "\n"))
+	}
+
+	// El disco más chico (1) es el de arriba y el más grande (3) el de abajo:
+	// un disco chico jamás queda debajo de uno grande.
+	if !strings.Contains(filas[0], "  ███  ") || strings.Contains(filas[0], "███████") {
+		t.Errorf("la fila superior debe mostrar el disco 1 (chico) y no el 3 (grande):\n%s", filas[0])
+	}
+	if !strings.Contains(filas[2], "███████") || strings.Contains(filas[2], "  ███  ") {
+		t.Errorf("la fila inferior debe mostrar el disco 3 (grande) y no el 1 (chico):\n%s", filas[2])
 	}
 }

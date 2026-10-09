@@ -86,7 +86,7 @@ func (e *estadoHanoi) Tablero() string {
 			if len(vara) < nivel {
 				b.WriteString(centrar("│", ancho))
 			} else {
-				disco := vara[len(vara)-nivel]
+				disco := vara[nivel-1]
 				resaltado := disco == e.ultimoDisco && i == e.ultimaVara
 				b.WriteString(celdaDelDisco(disco, ancho, resaltado))
 			}
