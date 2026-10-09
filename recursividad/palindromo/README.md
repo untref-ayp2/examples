@@ -36,7 +36,7 @@ go run ./recursividad/palindromo/
 - El ejemplo compara los caracteres exactos: distingue mayúsculas y no ignora
   espacios. Por eso `ANITA LAVA LA TINA` da `false` aunque, normalizado, sea
   palíndromo.
-- Máyúsculas: probá `DABALEARROZALAZORRAELABAD` en minúsculas.
+- Mayúsculas: probá `DABALEARROZALAZORRAELABAD` en minúsculas.
 - Acentos: probá palabras como «aviva» y variantes acentuadas.
 - Espacios: ¿cómo habría que modificar el código para que ignore los espacios
   y las mayúsculas?

@@ -10,30 +10,19 @@ func Quicksort(array []int) []int {
 	if len(array) < 2 {
 		return array
 	}
-	pivot := array[0]   // primer elemento como pivote
-	i := 1              // avanza desde el segundo elemento
-	j := len(array) - 1 // retrocede desde el último elemento
-
-	// particionamiento: menores del pivote a la izquierda, mayores a la derecha
-	for i < j {
-		for array[i] < pivot && i < len(array)-1 {
+	pivot := array[0]
+	i := 1 // borde: todo lo que está antes de i es menor que el pivote
+	for j := 1; j < len(array); j++ {
+		if array[j] < pivot {
+			array[i], array[j] = array[j], array[i]
 			i++
 		}
-		for array[j] > pivot && j > 0 {
-			j--
-		}
-		if i < j {
-			array[i], array[j] = array[j], array[i]
-		}
 	}
+	// el pivote va al borde de los menores y queda en su posición final
+	array[0], array[i-1] = array[i-1], array[0]
 
-	// el pivote queda en su posición final
-	if array[j] < pivot {
-		array[0], array[j] = array[j], array[0]
-	}
-
-	Quicksort(array[:j])   // sublista izquierda
-	Quicksort(array[j+1:]) // sublista derecha
+	Quicksort(array[:i-1]) // sublista izquierda (menores del pivote)
+	Quicksort(array[i:])   // sublista derecha (mayores o iguales)
 
 	return array
 }

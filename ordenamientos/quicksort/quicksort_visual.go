@@ -28,29 +28,23 @@ func quicksortVisual(w io.Writer, copia []int, lo, hi int, delay time.Duration) 
 		return
 	}
 	pivote := copia[lo]
-	i, j := lo+1, hi-1
-
-	for i < j {
-		for i < hi-1 && copia[i] < pivote {
+	i := lo + 1 // borde: todo lo que está antes de i es menor que el pivote
+	for j := lo + 1; j < hi; j++ {
+		if copia[j] < pivote {
+			copia[i], copia[j] = copia[j], copia[i]
 			i++
 		}
-		for j > lo && copia[j] > pivote {
-			j--
-		}
-		if i < j {
-			copia[i], copia[j] = copia[j], copia[i]
-		}
 	}
-	if copia[j] < pivote {
-		copia[lo], copia[j] = copia[j], copia[lo]
-	}
+	// el pivote va al borde de los menores y queda en su posición final
+	piv := i - 1
+	copia[lo], copia[piv] = copia[piv], copia[lo]
 
 	dibujarEstado(w, copia,
-		fmt.Sprintf("Particiona arr[%d:%d] con pivote %d (queda en arr[%d])", lo, hi, pivote, j),
-		j, j+1, delay)
+		fmt.Sprintf("Particiona arr[%d:%d] con pivote %d (queda en arr[%d])", lo, hi, pivote, piv),
+		piv, piv+1, delay)
 
-	quicksortVisual(w, copia, lo, j, delay)
-	quicksortVisual(w, copia, j+1, hi, delay)
+	quicksortVisual(w, copia, lo, piv, delay)
+	quicksortVisual(w, copia, piv+1, hi, delay)
 }
 
 // dibujarEstado escribe en w el estado actual de arr: una línea con el

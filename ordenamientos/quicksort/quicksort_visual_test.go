@@ -6,6 +6,21 @@ import (
 	"testing"
 )
 
+func TestAnimarQuicksortConRepetidos(t *testing.T) {
+	array := []int{3, 1, 3, 2, 3}
+	original := append([]int(nil), array...)
+
+	var buf bytes.Buffer
+	animarQuicksort(&buf, array, 0)
+
+	if !iguales(array, original) {
+		t.Errorf("la animación no debe modificar el arreglo original: quedó %v", array)
+	}
+	if !strings.Contains(buf.String(), "[1 2 3 3 3]") {
+		t.Errorf("la animación debe terminar con el arreglo ordenado; salida:\n%s", buf.String())
+	}
+}
+
 func TestAnimarQuicksort(t *testing.T) {
 	array := []int{5, 9, 2, 8, 1, 7, 4, 3, 10, 6}
 	original := append([]int(nil), array...)
