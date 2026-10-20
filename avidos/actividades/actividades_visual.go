@@ -45,7 +45,8 @@ func dibujarLineaTiempo(w io.Writer, actividades []Actividad, delay time.Duratio
 			case t < a.Inicio || t >= a.Fin:
 				barra.WriteString("  ")
 			case t == a.Inicio && t == a.Fin-1:
-				barra.WriteString("[-]")
+				// una sola unidad: la barra abre y cierra en la misma celda
+				barra.WriteString("[]")
 			case t == a.Inicio:
 				barra.WriteString("[=")
 			case t == a.Fin-1:

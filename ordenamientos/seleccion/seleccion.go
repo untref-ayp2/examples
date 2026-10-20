@@ -12,6 +12,10 @@ func OrdenarSeleccion(arr []int) {
 				minIdx = j
 			}
 		}
-		arr[i], arr[minIdx] = arr[minIdx], arr[i]
+		// intercambio el mínimo con la posición i; si ya está en su lugar
+		// el swap no cambia nada, así que lo evito (como en la versión visual)
+		if minIdx != i {
+			arr[i], arr[minIdx] = arr[minIdx], arr[i]
+		}
 	}
 }

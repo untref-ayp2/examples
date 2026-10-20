@@ -34,6 +34,14 @@ func TestCantidadImpar(t *testing.T) {
 	}
 }
 
+func TestElementosRepetidos(t *testing.T) {
+	array := []int{5, 3, 5, 1, 3, 5, 2, 1}
+	ordenado := []int{1, 1, 2, 3, 3, 5, 5, 5}
+	if !iguales(Mergesort(array), ordenado) {
+		t.Errorf("Mergesort(%v) = %v; se esperaba %v", array, Mergesort(array), ordenado)
+	}
+}
+
 // iguales compara dos slices de enteros elemento por elemento.
 func iguales(a, b []int) bool {
 	if len(a) != len(b) {

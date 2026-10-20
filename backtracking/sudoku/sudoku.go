@@ -132,5 +132,10 @@ func NuevoSudoku(tablero [9][9]int) *Sudoku {
 // Devuelve true si existe al menos una. El tablero original no se modifica.
 func (s *Sudoku) Resolver() bool {
 	s.soluciones = nil
-	return s.backtracking(nil, false)
+	// backtracking con primera=false no corta al encontrar una solución ni
+	// propaga ese resultado (solo sirve para cortar cuando primera es true);
+	// por eso, para saber si había alguna solución, miro si se guardó al
+	// menos una.
+	s.backtracking(nil, false)
+	return len(s.soluciones) > 0
 }

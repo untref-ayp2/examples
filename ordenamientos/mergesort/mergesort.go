@@ -2,8 +2,8 @@ package main
 
 // Mergesort ordena el slice de enteros de manera ascendente usando el
 // algoritmo divide y conquista del mismo nombre: divide el arreglo en dos
-// mitades, las ordena recursivamente y las fusiona. No modifica el arreglo
-// original: devuelve un nuevo slice ordenado.
+// mitades, las ordena recursivamente y las fusiona. Es estable.
+// No modifica el arreglo original: devuelve un nuevo slice ordenado.
 // Complejidad: O(n log n) en todos los casos.
 func Mergesort(array []int) []int {
 	if len(array) < 2 {
@@ -31,7 +31,9 @@ func merge(left, right []int) []int {
 		case j > len(right)-1:
 			array[k] = left[i]
 			i++
-		case left[i] < right[j]:
+		case left[i] <= right[j]:
+			// con elementos iguales tomo el de la izquierda: así el
+			// ordenamiento es estable (igual que la versión visual)
 			array[k] = left[i]
 			i++
 		default:

@@ -32,6 +32,31 @@ func TestDibujarLineaTiempo(t *testing.T) {
 	}
 }
 
+func TestDibujarLineaTiempoActividadDeDuracionUno(t *testing.T) {
+	// una actividad que ocupa una sola unidad de tiempo no debe romper la
+	// alineación de la fila: su barra también tiene que medir 2 caracteres
+	actividades := []Actividad{
+		{"corta", 2, 3},
+		{"larga", 0, 5},
+	}
+
+	var buf bytes.Buffer
+	dibujarLineaTiempo(&buf, actividades, 0)
+
+	lineas := strings.Split(strings.TrimRight(buf.String(), "\n"), "\n")
+	// la primera línea es el eje de tiempos; las dos siguientes son las filas
+	if len(lineas) != 3 {
+		t.Fatalf("se esperaban 3 líneas (eje + 2 filas); salida:\n%s", buf.String())
+	}
+	if len(lineas[1]) != len(lineas[2]) {
+		t.Errorf("la fila de %q mide %d caracteres y la de %q mide %d; deben medir lo mismo:\n%s",
+			"corta", len(lineas[1]), "larga", len(lineas[2]), buf.String())
+	}
+	if !strings.Contains(lineas[1], "[]") {
+		t.Errorf("la barra de una actividad de duración 1 debe dibujarse como []; salida:\n%s", buf.String())
+	}
+}
+
 func TestDibujarLineaTiempoVacia(t *testing.T) {
 	var buf bytes.Buffer
 	dibujarLineaTiempo(&buf, nil, 0)

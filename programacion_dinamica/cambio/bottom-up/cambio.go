@@ -2,6 +2,9 @@ package main
 
 import "math"
 
+// Cambio devuelve la cantidad mínima de monedas (tomadas de las
+// denominaciones en coins) necesarias para armar el monto exacto.
+// Si el monto no se puede armar con esas monedas, devuelve -1.
 func Cambio(monto int, coins []int) int {
 	n := monto
 
@@ -15,9 +18,17 @@ func Cambio(monto int, coins []int) int {
 				menor = min(menor, table[x-coin])
 			}
 		}
-		table[x] = 1 + menor
+		// si ninguna moneda lleva a una celda resoluble, el monto x no se
+		// puede armar: la celda queda marcada con el infinito
+		if menor == int(math.MaxInt32) {
+			table[x] = int(math.MaxInt32)
+		} else {
+			table[x] = 1 + menor
+		}
 	}
-	// fmt.Println(table)
+	if table[n] == int(math.MaxInt32) {
+		return -1
+	}
 	return table[n]
 }
 
