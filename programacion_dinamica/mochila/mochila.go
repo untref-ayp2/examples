@@ -69,7 +69,15 @@ func mochilaMemo(items []Item, i int, w int, memo [][]int) int {
 	return memo[i][w]
 }
 
-// MochilaTabConItems resuelve el problema y además devuelve los items seleccionados.
+// MochilaTabConItems resuelve el problema de la mochila 0/1 igual que
+// MochilaTab y, además, devuelve la lista de items elegidos.
+//
+// Reconstruye la selección «hacia atrás»: recorre la tabla desde la esquina
+// inferior derecha y, cuando dp[i][w] es distinto de dp[i-1][w], significa
+// que el item i-1 fue el que mejoró el valor, así que se agrega a la
+// selección y el peso disponible baja en su peso.
+//
+// Tiempo O(n*W) y espacio O(n*W), igual que MochilaTab.
 func MochilaTabConItems(items []Item, capacidad int) (int, []Item) {
 	n := len(items)
 	dp := make([][]int, n+1)

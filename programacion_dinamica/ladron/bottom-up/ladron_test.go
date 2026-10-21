@@ -29,3 +29,24 @@ func TestRobDosCasasConLaPrimeraMayor(t *testing.T) {
 		t.Errorf("Rob([10 1]) = %d; want 10", got)
 	}
 }
+
+func TestRobPrimeraCasaRindeMasQueLaSegunda(t *testing.T) {
+	// Mismos casos que en bottom-up-optimizado: las dos versiones aplican la
+	// misma decisión, así que tienen que devolver el mismo resultado. Acá el
+	// caso sirve para dejar constancia de que la tabla calcula la respuesta
+	// correcta cuando la primera casa rinde más que la segunda.
+	casos := []struct {
+		houses []int
+		want   int
+	}{
+		// Robar la casa 0 y la casa 3: 5 + 5 = 10.
+		{[]int{5, 1, 1, 5}, 10},
+		// Robar la casa 0 y la casa 3: 100 + 91 = 191.
+		{[]int{100, 59, 83, 91}, 191},
+	}
+	for _, caso := range casos {
+		if got := Rob(caso.houses); got != caso.want {
+			t.Errorf("Rob(%v) = %d; want %d", caso.houses, got, caso.want)
+		}
+	}
+}

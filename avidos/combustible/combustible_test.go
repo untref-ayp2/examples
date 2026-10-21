@@ -1,7 +1,6 @@
 package main
 
 import (
-	"reflect"
 	"testing"
 )
 
@@ -58,7 +57,21 @@ func TestParadasDeRecarga(t *testing.T) {
 
 	got := paradasDeRecarga(distancia, capacidad, estaciones)
 	esperado := []int{375, 750}
-	if !reflect.DeepEqual(got, esperado) {
+	if !mismasParadas(got, esperado) {
 		t.Errorf("paradasDeRecarga(%d, %d, %v) = %v; se esperaba %v", distancia, capacidad, estaciones, got, esperado)
 	}
+}
+
+// mismasParadas indica si dos listas de paradas son iguales, en el mismo
+// orden.
+func mismasParadas(a, b []int) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i := range a {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+	return true
 }

@@ -43,7 +43,7 @@ go run ./ordenamientos/mergesort/
   fusionando hasta cubrir el arreglo completo.
 - Probá con un arreglo de otro largo (impar, por ejemplo) para ver cómo
   quedan las mitades desparejas.
-- Bajá el `delay` a 0 para ver la animación de una sola pasada.
+- Bajá el `delay` a 0 para ver la animación completa de un solo tirón, sin pausas.
 
 ## 7. Tests
 

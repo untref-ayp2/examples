@@ -28,6 +28,10 @@ func animarSeleccion(w io.Writer, arr []int, delay time.Duration) {
 		if minIdx != i {
 			copia[i], copia[minIdx] = copia[minIdx], copia[i]
 		}
+		// Las dos posiciones que cambiaron en este paso se calculan como un
+		// rango [desde, hasta): la posición i, donde va el mínimo, y la
+		// minIdx, de donde salió. dibujarEstado marca con * las posiciones
+		// del rango.
 		desde, hasta := i, i+1
 		if minIdx < desde {
 			desde = minIdx
@@ -57,12 +61,17 @@ func dibujarEstado(w io.Writer, arr []int, titulo string, desde, hasta int, dela
 	}
 	fmt.Fprintln(w, "]")
 
+	// ancho es la cantidad de dígitos del número más largo, para que la
+	// columna de valores quede alineada con %*d (ancho variable).
 	ancho := 1
 	for _, v := range arr {
 		if a := len(strconv.Itoa(v)); a > ancho {
 			ancho = a
 		}
 	}
+	// Cada elemento se dibuja como una barra de # proporcional a su valor.
+	// Precondición: los elementos son >= 0 (strings.Repeat con una cantidad
+	// negativa paniquea).
 	for i, v := range arr {
 		marca := " "
 		if i >= desde && i < hasta {

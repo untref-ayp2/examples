@@ -66,12 +66,17 @@ func dibujarEstado(w io.Writer, arr []int, titulo string, desde, hasta int, dela
 	}
 	fmt.Fprintln(w, "]")
 
+	// ancho es la cantidad de dígitos del número más largo, para que la
+	// columna de valores quede alineada con %*d (ancho variable).
 	ancho := 1
 	for _, v := range arr {
 		if a := len(strconv.Itoa(v)); a > ancho {
 			ancho = a
 		}
 	}
+	// Cada elemento se dibuja como una barra de # proporcional a su valor.
+	// Precondición: los elementos son >= 0 (strings.Repeat con una cantidad
+	// negativa paniquea).
 	for i, v := range arr {
 		marca := " "
 		if i >= desde && i < hasta {

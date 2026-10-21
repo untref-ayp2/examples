@@ -124,6 +124,8 @@ func (s *Sudoku) backtracking(paso func(x, y, n int), primera bool) bool {
 // Puntos de entrada
 // ---------------------------------------------------------------------------
 
+// NuevoSudoku crea un resolutor para el tablero dado: cada celda es 0 (vacía)
+// o un valor entre 1 y 9. El tablero se copia: el original no se modifica.
 func NuevoSudoku(tablero [9][9]int) *Sudoku {
 	return &Sudoku{tablero: tablero}
 }

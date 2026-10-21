@@ -6,15 +6,21 @@ ejecutar y testear de forma independiente.
 
 ## Ejemplos
 
-| Ejemplo | Descripción | Cómo correrlo |
-|---|---|---|
-| [cambio](cambio/) | Cambio de moneda por backtracking: explora las combinaciones de denominaciones. | `go run ./backtracking/cambio/` |
-| [ratmaze](ratmaze/) | Laberinto: encuentra un camino desde la entrada hasta la salida. | `go run ./backtracking/ratmaze/` |
-| [reinas](reinas/) | Problema de las n reinas: ubica n reinas sin que se ataquen. | `go run ./backtracking/reinas/` |
-| [sudoku](sudoku/) | Resolución de un tablero de Sudoku de 9×9. | `go run ./backtracking/sudoku/` |
+Cada ejemplo tiene dos versiones: una **animada**, que muestra la búsqueda paso
+a paso en la terminal, y una **simple**, sin animación y sin callbacks, pensada
+para estudiar el algoritmo y su esquema (caso base, poda, extender, registrar y
+borrar).
 
-Los ejemplos de `ratmaze`, `reinas` y `sudoku` incluyen una capa visual ASCII que
-muestra paso a paso cómo se explora y se retrocede.
+| Ejemplo | Versión animada | Versión simple | Descripción |
+|---|---|---|---|
+| Cambio de moneda | [cambio](cambio/) | [cambio-simple](cambio-simple/) | Explora las combinaciones de denominaciones. |
+| Laberinto | [ratmaze](ratmaze/) | [ratmaze-simple](ratmaze-simple/) | Encuentra un camino desde la entrada hasta la salida. |
+| N reinas | [reinas](reinas/) | [reinas-simple](reinas-simple/) | Ubica n reinas sin que se ataquen. |
+| Sudoku | [sudoku](sudoku/) | [sudoku-simple](sudoku-simple/) | Resuelve un tablero de 9×9. |
+
+Las versiones animadas (`cambio`, `ratmaze`, `reinas` y `sudoku`) incluyen una
+capa visual ASCII que muestra paso a paso cómo se explora y se retrocede; las
+simples imprimen el resultado de una sola vez.
 
 ## Tests
 

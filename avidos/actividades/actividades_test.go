@@ -1,9 +1,6 @@
 package main
 
-import (
-	"reflect"
-	"testing"
-)
+import "testing"
 
 func TestSelectorActividadesIterativo(t *testing.T) {
 	actividades := []Actividad{
@@ -31,7 +28,24 @@ func TestSelectorActividadesIterativo(t *testing.T) {
 	if len(seleccionadas) != 4 {
 		t.Fatalf("se esperaban 4 actividades seleccionadas; se obtuvieron %d: %v", len(seleccionadas), seleccionadas)
 	}
-	if !reflect.DeepEqual(seleccionadas, esperado) {
+	// Se compara campo por campo con un helper propio en vez de
+	// reflect.DeepEqual: así el test no depende de reflexión y queda claro
+	// qué se está comparando.
+	if !mismasActividades(seleccionadas, esperado) {
 		t.Errorf("SelectorActividadesIterativo(...) = %v; se esperaba %v", seleccionadas, esperado)
 	}
+}
+
+// mismasActividades indica si dos listas de actividades tienen el mismo
+// contenido, en el mismo orden.
+func mismasActividades(a, b []Actividad) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i := range a {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+	return true
 }

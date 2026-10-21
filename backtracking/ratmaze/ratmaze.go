@@ -96,6 +96,9 @@ func (r *RatMaze) backtracking(x, y int, paso PasoLaberinto) bool {
 // Puntos de entrada
 // ---------------------------------------------------------------------------
 
+// NuevoRatMaze crea un resolutor para el laberinto dado: maze es una matriz de
+// booleanos donde true es una celda libre y false una pared. El laberinto se
+// usa tal cual (no se copia).
 func NuevoRatMaze(maze [][]bool) *RatMaze {
 	return &RatMaze{maze: maze}
 }

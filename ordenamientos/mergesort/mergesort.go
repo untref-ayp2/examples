@@ -12,6 +12,8 @@ func Mergesort(array []int) []int {
 
 	middle := len(array) / 2
 
+	// Cada mitad se ordena recursivamente y después se fusionan. Las
+	// divisiones array[:middle] y array[middle:] son vistas, no copias.
 	left := Mergesort(array[:middle])  // ordena la mitad izquierda
 	right := Mergesort(array[middle:]) // ordena la mitad derecha
 
@@ -23,17 +25,20 @@ func merge(left, right []int) []int {
 	size, i, j := len(left)+len(right), 0, 0
 	array := make([]int, size)
 
+	// i y j son los índices que avanzan por left y right.
 	for k := 0; k < size; k++ {
 		switch {
 		case i > len(left)-1:
+			// Se acabó la mitad izquierda: queda copiar el resto de right.
 			array[k] = right[j]
 			j++
 		case j > len(right)-1:
+			// Se acabó la mitad derecha: queda copiar el resto de left.
 			array[k] = left[i]
 			i++
 		case left[i] <= right[j]:
-			// con elementos iguales tomo el de la izquierda: así el
-			// ordenamiento es estable (igual que la versión visual)
+			// Con elementos iguales se toma el de la izquierda: así el
+			// ordenamiento es estable (igual que la versión visual).
 			array[k] = left[i]
 			i++
 		default:

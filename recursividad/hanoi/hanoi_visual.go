@@ -50,10 +50,6 @@ func (e *estadoHanoi) mover(disco, origen, destino int) {
 	e.ultimaVara = destino
 }
 
-func (e *estadoHanoi) alturaMaxima() int {
-	return e.discos
-}
-
 // centrar centra contenido en una celda de ancho dado, contando caracteres
 // (no bytes, porque los bordes y los discos usan UTF-8 multibyte).
 func centrar(contenido string, ancho int) string {

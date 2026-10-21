@@ -8,11 +8,11 @@ import (
 
 func main() {
 	// para experimentar: cambiá el arreglo o el delay (ponelo en 0 para ver
-	// la animación de una sola pasada)
+	// la animación completa de un solo tirón, sin pausas)
 	array := []int{5, 9, 2, 8, 1, 7, 4, 3, 10, 6}
 	const delay = 300 * time.Millisecond
 
-	fmt.Printf("Mergesort — estado del arreglo paso a paso\n\n")
+	fmt.Print("Mergesort — estado del arreglo paso a paso\n\n")
 
 	fmt.Printf("Antes:  %v\n\n", array)
 	animarMergesort(os.Stdout, array, delay)

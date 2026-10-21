@@ -1,5 +1,7 @@
 package main
 
+// Actividad es una tarea con un momento de inicio y uno de finalización. Dos
+// actividades se solapan si sus intervalos [Inicio, Fin) comparten tiempo.
 type Actividad struct {
 	Nombre string
 	Inicio int
@@ -9,8 +11,13 @@ type Actividad struct {
 // SelectorActividadesIterativo devuelve la mayor cantidad de actividades que
 // no se solapan, recorriendo la lista en una sola pasada.
 //
-// Precondición: las actividades están ordenadas de menor a mayor por tiempo de
-// finalización.
+// Estrategia ávida: se toma siempre la actividad que termina antes, porque
+// deja libre la mayor parte de la línea de tiempo para las que siguen. Es
+// óptima: en cualquier selección, reemplazar la primera actividad elegida por
+// la que termina antes no elimina ninguna posibilidad futura.
+//
+// Precondición: la lista no está vacía y las actividades están ordenadas de
+// menor a mayor por tiempo de finalización.
 func SelectorActividadesIterativo(actividades []Actividad) []Actividad {
 	var seleccionadas []Actividad
 	n := len(actividades)
