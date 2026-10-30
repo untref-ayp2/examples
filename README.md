@@ -80,7 +80,7 @@ make build    # compila todos los paquetes
 make test     # corre todos los tests
 make test-v   # corre todos los tests en modo verboso
 make fmt      # formatea el código
-make lint     # corre golangci-lint
+make lint     # corre golangci-lint (v2)
 make clean    # limpia la caché de tests
 ```
 
